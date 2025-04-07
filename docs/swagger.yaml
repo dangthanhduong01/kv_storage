@@ -1,0 +1,201 @@
+definitions:
+  kv.DataResult_:
+    properties:
+      data:
+        $ref: '#/definitions/kv.MapItem'
+      errorCode:
+        $ref: '#/definitions/kv.ErrorCode'
+    type: object
+  kv.ErrorCode:
+    enum:
+    - 0
+    - -1
+    - -2
+    - -3
+    - -4
+    type: integer
+    x-enum-varnames:
+    - ErrorCode_Good
+    - ErrorCode_NotFound
+    - ErrorCode_Unknown
+    - ErrorCode_DataExisted
+    - ErrorCode_IterExceed
+  kv.MapItem:
+    properties:
+      key:
+        type: string
+      value:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /api/getdata/{key}:
+    get:
+      consumes:
+      - application/json
+      description: Get data from storage by key
+      parameters:
+      - description: Key
+        in: path
+        name: key
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/kv.DataResult_'
+        "500":
+          description: Internal Server Error
+          schema:
+            items:
+              $ref: '#/definitions/kv.ErrorCode'
+            type: array
+      summary: Get data by key
+      tags:
+      - data
+  /api/getlistdata:
+    get:
+      consumes:
+      - application/json
+      description: Get list of data from storage by keys
+      parameters:
+      - description: List of Keys
+        in: body
+        name: keys
+        required: true
+        schema:
+          items:
+            type: string
+          type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/kv.MapItem'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            items:
+              $ref: '#/definitions/kv.ErrorCode'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            items:
+              $ref: '#/definitions/kv.ErrorCode'
+            type: array
+      summary: Get list of data by keys
+      tags:
+      - data
+  /api/putdata:
+    post:
+      consumes:
+      - application/json
+      description: Put data into storage
+      parameters:
+      - description: Map Item
+        in: body
+        name: item
+        required: true
+        schema:
+          $ref: '#/definitions/kv.MapItem'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/kv.ErrorCode'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            items:
+              $ref: '#/definitions/kv.ErrorCode'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            items:
+              $ref: '#/definitions/kv.ErrorCode'
+            type: array
+      summary: Put data
+      tags:
+      - data
+  /api/putmultidata:
+    post:
+      consumes:
+      - application/json
+      description: Put multiple data into storage
+      parameters:
+      - description: List of Map Items
+        in: body
+        name: items
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/kv.MapItem'
+          type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/kv.ErrorCode'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            items:
+              $ref: '#/definitions/kv.ErrorCode'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            items:
+              $ref: '#/definitions/kv.ErrorCode'
+            type: array
+      summary: Put multiple data
+      tags:
+      - data
+  /api/removedata/{key}:
+    delete:
+      consumes:
+      - application/json
+      description: Remove data from storage by key
+      parameters:
+      - description: Key
+        in: path
+        name: key
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/kv.ErrorCode'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            items:
+              $ref: '#/definitions/kv.ErrorCode'
+            type: array
+      summary: Remove data by key
+      tags:
+      - data
+swagger: "2.0"
