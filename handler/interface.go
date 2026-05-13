@@ -1,4 +1,4 @@
-package handl
+package handler
 
 import "kvstorage/gen-go/kv"
 

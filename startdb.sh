@@ -8,7 +8,7 @@ set -e
 # fi
 
 # Start Postgres in a local Docker container
-docker run --rm --name=dbos-db --env=POSTGRES_PASSWORD="1234" --env=PGDATA=/var/lib/postgresql/data --volume=/var/lib/postgresql/data -p 5432:5432 -d postgres:latest
+docker run --rm --name=dbos-db --env=POSTGRES_PASSWORD="1234" --env=PGDATA=/var/lib/postgresql/data --volume=/var/lib/postgresql/data -p 5432:5432 -d postgres:16
 
 # Wait for PostgreSQL to start
 echo "Waiting for PostgreSQL to start..."
